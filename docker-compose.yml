@@ -1,0 +1,38 @@
+version: '2'
+
+services:
+
+  postgres:
+    image: postgres
+    hostname: postgres
+    environment:
+      POSTGRES_USER: guru_pootle
+      POSTGRES_PASSWORD: yv6EV6ctSKC87PKT
+      POSTGRES_DB: guru_pootle
+
+  memcached:
+    image: memcached
+    hostname: memcached
+
+  redis:
+    image: redis
+    hostname: redis
+
+  nginx:
+    image: nginx
+    hostname: nginx
+
+  app:
+    build:
+      context: .
+    depends_on:
+      - postgres
+      - memcached
+      - redis
+      - nginx
+
+  rqworker:
+    build:
+      context: .
+    depends_on:
+      - redis
