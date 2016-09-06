@@ -6,13 +6,13 @@ services:
     image: postgres
     hostname: postgres
     environment:
-      POSTGRES_USER: guru_pootle
-      POSTGRES_PASSWORD: yv6EV6ctSKC87PKT
-      POSTGRES_DB: guru_pootle
+      POSTGRES_USER: pootle
+      POSTGRES_PASSWORD: cNEujap1w6OMSDGDIeE5TYS7aKl
+      POSTGRES_DB: pootle
 
-  memcached:
-    image: memcached
-    hostname: memcached
+  elasticsearch:
+    image: elasticsearch
+    hostname: elasticsearch
 
   redis:
     image: redis
@@ -21,18 +21,33 @@ services:
   nginx:
     image: nginx
     hostname: nginx
+    volumes_from:
+      - app
 
   app:
     build:
       context: .
+    command: pootle runserver --insecure 0.0.0.0:8000
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - ./pootle.conf:/etc/pootle/pootle.conf
+      - /var/www/pootle/static
+      - /var/www/pootle/media
+    environment: &app_env
+      POOTLE_SETTINGS: "/etc/pootle/pootle.conf"
     depends_on:
       - postgres
-      - memcached
       - redis
-      - nginx
+      - elasticsearch
 
   rqworker:
     build:
       context: .
+    command: pootle rqworker
     depends_on:
-      - redis
+      - app
+    volumes_from:
+      - app
+    environment:
+      <<: *app_env
