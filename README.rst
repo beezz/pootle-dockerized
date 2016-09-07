@@ -14,7 +14,8 @@ Usage
 
         # Clone this repo & move to it
         $ git clone https://github.com/beezz/pootle-dockerized && cd pootle-dockerized
-        # Run it in background
+
+        # Run pootle and all supporting services in background
         $ docker-compose up -d
 
 First run
@@ -24,11 +25,14 @@ First run
 
         # Initiate database
         $ docker-compose run pootle migrate
+
         # This takes a while as it will create the default projects and stores.
         $ docker-compose run pootle initdb
+
         # Create & verify superuser
         $ docker-compose run pootle createsuperuser
         $ docker-compose run pootle verify_user <username>
+
         # Restart the pootle and rqworker services
         $ docker-compose restart pootle rqworker
 
