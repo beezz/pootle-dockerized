@@ -11,3 +11,4 @@ RUN apt-get update -y \
 RUN pip install -U virtualenv pip
 RUN pip install psycopg2
 RUN pip install --pre Pootle
+ENTRYPOINT ["pootle"]
