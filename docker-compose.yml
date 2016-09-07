@@ -22,12 +22,12 @@ services:
     image: nginx
     hostname: nginx
     volumes_from:
-      - app
+      - pootle
 
-  app:
+  pootle:
     build:
       context: .
-    command: pootle runserver --insecure 0.0.0.0:8000
+    command: runserver --insecure 0.0.0.0:8000
     ports:
       - "127.0.0.1:8000:8000"
     volumes:
@@ -44,10 +44,10 @@ services:
   rqworker:
     build:
       context: .
-    command: pootle rqworker
+    command: rqworker
     depends_on:
-      - app
+      - pootle
     volumes_from:
-      - app
+      - pootle
     environment:
       <<: *app_env
