@@ -1,5 +1,9 @@
 version: '2'
 
+volumes:
+  assets:
+  media:
+
 services:
 
   postgres:
@@ -21,20 +25,31 @@ services:
   nginx:
     image: nginx
     hostname: nginx
-    volumes_from:
+    links:
       - pootle
+    volumes:
+      - ./nginx/pootle-http.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - assets:/var/www/pootle/assets
+      - media:/var/www/pootle/media
 
   pootle:
     build:
       context: .
-    command: runserver --insecure 0.0.0.0:8000
-    ports:
-      - "127.0.0.1:8000:8000"
+    command: [
+      'uwsgi',
+      '--master',
+      '--http', '0.0.0.0:8000',
+      '--wsgi-file', '/etc/pootle/wsgi.py',
+      '--callable', 'application'
+    ]
     volumes:
+      - ./wsgi.py:/etc/pootle/wsgi.py
       - ./pootle.conf:/etc/pootle/pootle.conf
-      - /var/www/pootle/static
-      - /var/www/pootle/media
+      - assets:/var/www/pootle/assets
+      - media:/var/www/pootle/media
     environment: &app_env
+      DJANGO_SETTINGS_MODULE: "pootle.settings"
       POOTLE_SETTINGS: "/etc/pootle/pootle.conf"
     depends_on:
       - postgres
@@ -44,7 +59,7 @@ services:
   rqworker:
     build:
       context: .
-    command: rqworker
+    command: ['pootle', 'rqworker']
     depends_on:
       - pootle
     volumes_from:
