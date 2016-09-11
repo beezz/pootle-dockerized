@@ -38,7 +38,7 @@ Initiate database and build static assets for nginx:
         $ docker-compose run pootle pootle collectstatic --clear --noinput
         $ docker-compose run pootle pootle assets build
 
-Or all of this commands at once:
+Or all of the initialization commands at once:
 
 .. code-block:: bash
 
