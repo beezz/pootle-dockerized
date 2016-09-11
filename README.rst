@@ -3,7 +3,7 @@
 Pootle dockerized
 =================
 
-Ready to use `docker-compose <https://docs.docker.com/compose/>`_ for `Pootle
+Ready-to-use `docker-compose <https://docs.docker.com/compose/>`_ for `Pootle
 <https://github.com/translate/pootle>`_ translation server.
 
 
@@ -36,6 +36,13 @@ First run
         $ docker-compose run pootle pootle collectstatic --clear --noinput
         $ docker-compose run pootle pootle assets build
 
+Or all of this commands at once:
+
+.. code-block:: bash
+        $ bash ./init_pootle.sh
+
+.. code-block:: bash
+
         # Create & verify superuser
         $ docker-compose run pootle pootle createsuperuser
         $ docker-compose run pootle pootle verify_user <username>
@@ -56,6 +63,10 @@ docker-compose.yml
   <http://docs.translatehouse.org/projects/pootle/en/latest/features/translation_memory.html#elasticsearch-based-tms>`_
 
 * `Redis <http://redis.io/>`_ for async job queue and as a cache backend
+
+* `NGINX <https://nginx.org/>`_ as a frontend server. Serves static, media files and act as a proxy to pootle.
+
+* `uwsgi  <https://uwsgi-docs.readthedocs.io/en/latest/>`_ to run pootle wsgi app.
 
 
 License
