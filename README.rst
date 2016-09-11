@@ -21,6 +21,8 @@ Usage
 First run
 ---------
 
+Initiate database and build static assets for nginx:
+
 .. code-block:: bash
 
         # Initiate database
@@ -42,11 +44,19 @@ Or all of this commands at once:
 
         $ bash ./init_pootle.sh
 
+
+As a next step you need to create superuser:
+
 .. code-block:: bash
 
         # Create & verify superuser
         $ docker-compose run pootle pootle createsuperuser
         $ docker-compose run pootle pootle verify_user <username>
+
+
+Restart pootle and rqworker:
+
+.. code-block:: bash
 
         # Restart the pootle and rqworker services
         $ docker-compose restart pootle rqworker
