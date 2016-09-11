@@ -24,14 +24,21 @@ First run
 .. code-block:: bash
 
         # Initiate database
-        $ docker-compose run pootle migrate
+        # Nope it's not err `pootle pootle`
+        # - name of service in docker-compose
+        # - executable named pootle
+        $ docker-compose run pootle pootle migrate
 
         # This takes a while as it will create the default projects and stores.
-        $ docker-compose run pootle initdb
+        $ docker-compose run pootle pootle initdb
+
+        # Collect and build assets
+        $ docker-compose run pootle pootle collectstatic --clear --noinput
+        $ docker-compose run pootle pootle assets build
 
         # Create & verify superuser
-        $ docker-compose run pootle createsuperuser
-        $ docker-compose run pootle verify_user <username>
+        $ docker-compose run pootle pootle createsuperuser
+        $ docker-compose run pootle pootle verify_user <username>
 
         # Restart the pootle and rqworker services
         $ docker-compose restart pootle rqworker
