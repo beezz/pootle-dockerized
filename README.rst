@@ -39,6 +39,7 @@ First run
 Or all of this commands at once:
 
 .. code-block:: bash
+
         $ bash ./init_pootle.sh
 
 .. code-block:: bash
