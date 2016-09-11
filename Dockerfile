@@ -9,6 +9,6 @@ RUN apt-get update -y \
  && rm -rf /var/lib/apt/lists/*
 
 RUN pip install -U virtualenv pip
-RUN pip install psycopg2
+RUN pip install psycopg2 uwsgi
 RUN pip install --pre Pootle
-ENTRYPOINT ["pootle"]
+# ENTRYPOINT ["pootle"]
