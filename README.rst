@@ -21,12 +21,13 @@ Usage
 
 To get url of your running `Pootle
 <http://docs.translatehouse.org/projects/pootle/en/latest/>`_
-use `get_pootle_url.sh` helper script or `docker inspect`:
+use ``get_pootle_url.sh`` helper script or `docker inspect`:
 
 
 .. code-block:: bash
 
-        $ bash get_pootle_url.sh
+        $ bash ./get_pootle_url.sh
+        Your Pootle isntance is running at http://172.21.0.7
 
 
 Or:
@@ -37,6 +38,7 @@ Or:
         $ NETWORK=$(docker network ls | awk '$2~/pootle/{print $2}')
         $ NAME=$(docker ps --filter name=pootle_nginx --format {{.Names}})
         $ docker inspect --format "{{ .NetworkSettings.Networks.${NETWORK}.IPAddress }}" ${NAME}
+        172.21.0.7
 
 
 First run
