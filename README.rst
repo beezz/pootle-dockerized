@@ -18,6 +18,27 @@ Usage
         # Run pootle and all supporting services in background
         $ docker-compose up -d
 
+
+To get url of your running `Pootle
+<http://docs.translatehouse.org/projects/pootle/en/latest/>`_
+use `get_pootle_url.sh` helper script or `docker inspect`:
+
+
+.. code-block:: bash
+
+        $ bash get_pootle_url.sh
+
+
+Or:
+
+
+.. code-block:: bash
+
+        $ NETWORK=$(docker network ls | awk '$2~/pootle/{print $2}')
+        $ NAME=$(docker ps --filter name=pootle_nginx --format {{.Names}})
+        $ docker inspect --format "{{ .NetworkSettings.Networks.${NETWORK}.IPAddress }}" ${NAME}
+
+
 First run
 ---------
 
@@ -68,14 +89,14 @@ For more information please refer to official `Pootle documentation
 docker-compose.yml
 ==================
 
-* `PostgreSQL <https://www.postgresql.org/>`_ as database backend
+* `PostgreSQL <https://www.postgresql.org/>`_ as database backend,
 
 * `Elasticsearch <https://www.elastic.co/products/elasticsearch>`_ for `TMs
-  <http://docs.translatehouse.org/projects/pootle/en/latest/features/translation_memory.html#elasticsearch-based-tms>`_
+  <http://docs.translatehouse.org/projects/pootle/en/latest/features/translation_memory.html#elasticsearch-based-tms>`_,
 
-* `Redis <http://redis.io/>`_ for async job queue and as a cache backend
+* `Redis <http://redis.io/>`_ for async job queue and as a cache backend,
 
-* `NGINX <https://nginx.org/>`_ as a frontend server. Serves static, media files and act as a proxy to pootle.
+* `NGINX <https://nginx.org/>`_ as a frontend server. Serves static, media files and act as a proxy to pootle,
 
 * `uwsgi  <https://uwsgi-docs.readthedocs.io/en/latest/>`_ to run pootle wsgi app.
 
