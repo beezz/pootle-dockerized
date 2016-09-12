@@ -13,14 +13,17 @@ services:
       POSTGRES_USER: pootle
       POSTGRES_PASSWORD: cNEujap1w6OMSDGDIeE5TYS7aKl
       POSTGRES_DB: pootle
+    container_name: pootle_postgres
 
   elasticsearch:
     image: elasticsearch
     hostname: elasticsearch
+    container_name: pootle_elasticsearch
 
   redis:
     image: redis
     hostname: redis
+    container_name: pootle_redis
 
   nginx:
     image: nginx
@@ -32,6 +35,7 @@ services:
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
       - assets:/var/www/pootle/assets
       - media:/var/www/pootle/media
+    container_name: pootle_nginx
 
   pootle:
     build:
@@ -55,6 +59,7 @@ services:
       - postgres
       - redis
       - elasticsearch
+    container_name: pootle_app
 
   rqworker:
     build:
@@ -66,3 +71,4 @@ services:
       - pootle
     environment:
       <<: *app_env
+    container_name: pootle_rqworker
