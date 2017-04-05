@@ -11,4 +11,8 @@ RUN apt-get update -y \
 RUN pip install -U virtualenv pip
 RUN pip install psycopg2 uwsgi
 RUN pip install --pre Pootle
+
+RUN useradd -u 1000 -ms /bin/bash pootle
+USER pootle
+WORKDIR /home/pootle
 # ENTRYPOINT ["pootle"]

@@ -50,6 +50,7 @@ services:
     volumes:
       - ./wsgi.py:/etc/pootle/wsgi.py
       - ./pootle.conf:/etc/pootle/pootle.conf
+      - ./translations:/home/pootle/translations
       - assets:/var/www/pootle/assets
       - media:/var/www/pootle/media
     environment: &app_env
